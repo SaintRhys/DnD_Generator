@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace WindowsFormsApp1 {
     public partial class Form1 : Form {
@@ -58,5 +59,39 @@ namespace WindowsFormsApp1 {
         }
 
         #endregion buttons
+
+
+
+        private void button11_Click(object sender, EventArgs e) {
+            //Generate encounter
+            int level = int.Parse(textBox1.Text);
+            int pSize = int.Parse(textBox4.Text);
+            int diff = (Array.IndexOf(difficulty, textBox6.Text) + 1);
+
+            textBox9.Text = ((level * pSize * diff) * 12.5).ToString();
+
+            /*
+            string conString = "datasource=localhost;port=3306;username=root;password=SuperAdmin1!;";
+            string query = "SELECT * FROM dnd_generator.monster_list;";
+
+            MySqlConnection conDatabase = new MySqlConnection(conString);
+            MySqlCommand cmdDatabase = new MySqlCommand(query, conDatabase);
+            MySqlDataReader myReader;
+
+            try {
+                conDatabase.Open();
+                myReader = cmdDatabase.ExecuteReader();
+                while (myReader.Read()) {
+                    string[] monsterRow = new string[] {myReader.GetString("name"), myReader.GetString("size"),
+                        myReader.GetString("type"), myReader.GetInt32("challenge").ToString()};
+
+                    ListViewItem newItem = new ListViewItem(monsterRow);
+                    listView1.Items.Add(newItem);
+                }
+            } catch(Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+            */
+        }
     }
 }
