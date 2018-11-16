@@ -48,11 +48,13 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(482, 408);
+            this.button1.Location = new System.Drawing.Point(383, 409);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 30);
             this.button1.TabIndex = 1;
@@ -73,7 +75,7 @@
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(41, 41);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(54, 45);
+            this.textBox1.Size = new System.Drawing.Size(85, 45);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "1";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -82,14 +84,14 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(12, 13);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(114, 22);
+            this.textBox2.Size = new System.Drawing.Size(145, 22);
             this.textBox2.TabIndex = 4;
             this.textBox2.Text = "Party Level";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(101, 41);
+            this.button3.Location = new System.Drawing.Point(132, 41);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(25, 45);
             this.button3.TabIndex = 5;
@@ -119,7 +121,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(101, 126);
+            this.button6.Location = new System.Drawing.Point(132, 126);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(25, 45);
             this.button6.TabIndex = 9;
@@ -131,7 +133,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(12, 98);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(114, 22);
+            this.textBox3.Size = new System.Drawing.Size(145, 22);
             this.textBox3.TabIndex = 8;
             this.textBox3.Text = "Party Size";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -141,7 +143,7 @@
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.Location = new System.Drawing.Point(41, 126);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(54, 45);
+            this.textBox4.Size = new System.Drawing.Size(85, 45);
             this.textBox4.TabIndex = 7;
             this.textBox4.Text = "1";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -228,7 +230,7 @@
             // 
             this.button11.Location = new System.Drawing.Point(12, 382);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(179, 56);
+            this.button11.Size = new System.Drawing.Size(145, 56);
             this.button11.TabIndex = 19;
             this.button11.Text = "Generate";
             this.button11.UseVisualStyleBackColor = true;
@@ -247,11 +249,12 @@
             this.listView1.TabIndex = 20;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 123;
+            this.columnHeader1.Width = 104;
             // 
             // columnHeader2
             // 
@@ -271,17 +274,38 @@
             // textBox9
             // 
             this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(243, 13);
+            this.textBox9.Location = new System.Drawing.Point(669, 409);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(85, 26);
+            this.textBox9.Size = new System.Drawing.Size(119, 26);
             this.textBox9.TabIndex = 21;
             this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(246, 13);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(5);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(101, 22);
+            this.textBox10.TabIndex = 22;
+            this.textBox10.Text = "00";
+            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(173, 13);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(67, 22);
+            this.textBox11.TabIndex = 23;
+            this.textBox11.Text = "Total XP:";
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.button11);
@@ -336,6 +360,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox textBox11;
     }
 }
 

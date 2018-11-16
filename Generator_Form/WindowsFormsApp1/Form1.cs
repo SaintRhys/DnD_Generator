@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 
 namespace WindowsFormsApp1 {
@@ -9,8 +11,11 @@ namespace WindowsFormsApp1 {
         static string[] difficulty = new string[] {"Easy", "Medium", "Hard", "Deadly"};
         static string[] environment = new string[] {"Any", "Arctic", "Coastal", "Desert", "Forest", "Grassland", "Hill", "Mountain", "Swamp", "Underdark", "Underwater", "Urban" };
 
+        int[] chlLvl = new int[] {10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100};
+
         public Form1() {
             InitializeComponent();
+            ListViewSetUp();
         }
 
         #region buttons
@@ -60,38 +65,80 @@ namespace WindowsFormsApp1 {
 
         #endregion buttons
 
-
+        private void ListViewSetUp() {
+            listView1.FullRowSelect = true;
+        }
 
         private void button11_Click(object sender, EventArgs e) {
             //Generate encounter
             int level = int.Parse(textBox1.Text);
             int pSize = int.Parse(textBox4.Text);
             int diff = (Array.IndexOf(difficulty, textBox6.Text) + 1);
+            int challenge = (level * pSize * diff) * 25;
 
-            textBox9.Text = ((level * pSize * diff) * 12.5).ToString();
+            List<int> posChl = new List<int>();
+            List<int> monsterList = new List<int>();
 
-            /*
+            textBox10.Text = "0";
+            listView1.Items.Clear();
+            
+            foreach (int i in chlLvl) {
+                if (i / challenge <= 1) {
+                    posChl.Add(i);
+                }
+            }
+
+            Random r = new Random();
+            int missFires = 0;
+            while (challenge > 0) {
+                int rInt = r.Next(0, posChl.Count);
+                Console.WriteLine("Random: {0} and pos: {1}", rInt, posChl[rInt]);
+                if (challenge - posChl[rInt] >= 0) {
+                    challenge -= posChl[rInt];
+                    monsterList.Add(posChl[rInt]);
+                    PopulateViewList(posChl[rInt]);
+                } else
+                    missFires++;
+                if (missFires == 5)
+                    break;
+            }
+
+            textBox9.Text = string.Join(", ", monsterList);
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void PopulateViewList(int chl) {
             string conString = "datasource=localhost;port=3306;username=root;password=SuperAdmin1!;";
-            string query = "SELECT * FROM dnd_generator.monster_list;";
+            string query = "SELECT * FROM dnd_generator.monster_list WHERE challenge='" + chl + "' ORDER BY RAND() LIMIT 1;";
 
             MySqlConnection conDatabase = new MySqlConnection(conString);
             MySqlCommand cmdDatabase = new MySqlCommand(query, conDatabase);
             MySqlDataReader myReader;
 
             try {
+                int totalXP = int.Parse(textBox10.Text);
                 conDatabase.Open();
                 myReader = cmdDatabase.ExecuteReader();
                 while (myReader.Read()) {
                     string[] monsterRow = new string[] {myReader.GetString("name"), myReader.GetString("size"),
                         myReader.GetString("type"), myReader.GetInt32("challenge").ToString()};
-
+                    totalXP += myReader.GetInt32("xp");
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
                 }
-            } catch(Exception ex) {
+
+                textBox10.Text = totalXP.ToString();
+            } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
-            */
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e) {
+            Monster_Form mForm = new Monster_Form();
+            Console.WriteLine("Count: {0}", listView1.SelectedItems.Count);
+            Console.WriteLine("Item: {0}", listView1.SelectedItems[0].Text);
+            mForm.Text = listView1.SelectedItems[0].Text;
+            mForm.Show();
         }
     }
 }
