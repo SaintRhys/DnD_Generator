@@ -40,6 +40,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // textBox1
@@ -129,6 +130,7 @@
             // 
             // listView1
             // 
+            this.listView1.BackColor = System.Drawing.Color.LightGray;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -136,7 +138,7 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
-            this.listView1.Location = new System.Drawing.Point(123, 144);
+            this.listView1.Location = new System.Drawing.Point(123, 126);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(367, 52);
             this.listView1.TabIndex = 10;
@@ -167,11 +169,20 @@
             // 
             this.columnHeader6.Text = "CHA";
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Location = new System.Drawing.Point(13, 185);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(613, 566);
+            this.panel1.TabIndex = 11;
+            // 
             // Monster_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(674, 450);
+            this.ClientSize = new System.Drawing.Size(632, 763);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.textBox9);
@@ -183,6 +194,7 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Name = "Monster_Form";
             this.Text = "Form2";
             this.ResumeLayout(false);
@@ -209,5 +221,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.Panel panel1;
     }
 }
