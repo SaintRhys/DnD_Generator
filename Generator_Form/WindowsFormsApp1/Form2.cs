@@ -21,8 +21,6 @@ namespace WindowsFormsApp1 {
         private void SetUpMonsterProps(int[] props) {
             int controlCount = 1;
 
-            
-
             for (int p = 0; p < 10; p++) {
                 Panel newPanel = new Panel();
                 
@@ -52,5 +50,23 @@ namespace WindowsFormsApp1 {
                 newPanel.Height = controlCount * 25;
             }
         }
+    }
+
+    public class Monster_Info {
+        string id;
+        string name;
+        string size;
+        string type;
+
+        int armorClass;
+        string hitDice;
+        int maxHP;
+        int currHP;
+        int speed;
+        int[] attirbutes;
+
+        string[] extraInfo;
+        string[] features;
+        string[] actions;
     }
 }
