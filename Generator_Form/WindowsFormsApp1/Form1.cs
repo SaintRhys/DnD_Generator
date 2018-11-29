@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Linq;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace WindowsFormsApp1 {
     public partial class Form1 : Form {
@@ -16,6 +17,7 @@ namespace WindowsFormsApp1 {
         public Form1() {
             InitializeComponent();
             ListViewSetUp();
+            CheckAndCreateFilePath();
         }
 
         #region buttons
@@ -65,6 +67,15 @@ namespace WindowsFormsApp1 {
 
         #endregion buttons
 
+        private void CheckAndCreateFilePath() {
+            string filePath = @Application.UserAppDataPath + "/Monster_Lists";
+            if (!Directory.Exists(filePath)) {
+                Console.WriteLine(Application.UserAppDataPath + "/Monster_Lists");
+            } else {
+                Console.WriteLine("Path found");
+            }
+        }
+
         private void ListViewSetUp() {
             listView1.FullRowSelect = true;
         }
@@ -78,6 +89,9 @@ namespace WindowsFormsApp1 {
 
             List<int> posChl = new List<int>();
             List<int> monsterList = new List<int>();
+
+            //clear json file
+            //File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList.txt", "");
 
             textBox10.Text = "0";
             listView1.Items.Clear();
@@ -109,7 +123,7 @@ namespace WindowsFormsApp1 {
 
         private void PopulateViewList(int chl) {
             string conString = "datasource=localhost;port=3306;username=root;password=SuperAdmin1!;";
-            string query = "SELECT * FROM dnd_generator.monster_list WHERE challenge='" + chl + "' ORDER BY RAND() LIMIT 1;";
+            string query = "SELECT * FROM monster_database.monster_list WHERE Challenge='" + chl + "' ORDER BY RAND() LIMIT 1;";
 
             MySqlConnection conDatabase = new MySqlConnection(conString);
             MySqlCommand cmdDatabase = new MySqlCommand(query, conDatabase);
@@ -120,9 +134,20 @@ namespace WindowsFormsApp1 {
                 conDatabase.Open();
                 myReader = cmdDatabase.ExecuteReader();
                 while (myReader.Read()) {
-                    string[] monsterRow = new string[] {myReader.GetString("name"), myReader.GetString("size"),
-                        myReader.GetString("type"), myReader.GetInt32("challenge").ToString()};
-                    totalXP += myReader.GetInt32("xp");
+                    
+                    string[] monsterRow = new string[] {myReader.GetString("Name"), myReader.GetString("Size"),
+                        myReader.GetString("Type"), myReader.GetInt32("Challenge").ToString()};
+
+                    //totalXP += myReader.GetInt32("XP");
+                    // add to json file
+                    List<string> monsterAttList = new List<string>();
+                    for (int i = 0; i < myReader.FieldCount; i++) {
+                        monsterAttList.Add(myReader.GetValue(i).ToString());
+                    }
+                    MonsterAttributes monAtt = new MonsterAttributes(monsterAttList);
+                    string completeMon = JsonConvert.SerializeObject(monAtt);
+                    File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items.Count + ".json", completeMon);
+
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
                 }
@@ -134,7 +159,7 @@ namespace WindowsFormsApp1 {
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e) {
-            Monster_Form mForm = new Monster_Form();
+            Monster_Form mForm = new Monster_Form(123);
             Console.WriteLine("Count: {0}", listView1.SelectedItems.Count);
             Console.WriteLine("Item: {0}", listView1.SelectedItems[0].Text);
             mForm.Text = listView1.SelectedItems[0].Text;

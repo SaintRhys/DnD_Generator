@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1 {
     public partial class Monster_Form : Form {
         string[] monsterProps = new string[] {"Saving Throws:", "Skills:", "Damage Resistance:", "Damage Immunities:", "Condition Immunities:", "Senses:", "Language:", "Challenge"};
-        public Monster_Form() {
+        public Monster_Form(int monsterID) {
             InitializeComponent();
-
+            Monster_Info currMonster = new Monster_Info();
             Random r = new Random();
             SetUpMonsterProps(new int[] { r.Next(0, 2), r.Next(0, 2), r.Next(0, 2), r.Next(0, 2), r.Next(0, 2), r.Next(0, 2), r.Next(0, 2), r.Next(0, 2) });
         }
@@ -52,7 +46,7 @@ namespace WindowsFormsApp1 {
         }
     }
 
-    public class Monster_Info {
+    public struct Monster_Info {
         string id;
         string name;
         string size;
