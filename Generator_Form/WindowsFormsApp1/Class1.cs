@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 namespace WindowsFormsApp1 {
-    class MonsterAttributes {
+    public class MonsterAttributes {
         public int id { get; set; }
         public string name { get; set; }
         public string size { get; set; }
@@ -45,46 +45,5 @@ namespace WindowsFormsApp1 {
         public string urban { get; set; }
         public string font { get; set; }
         public string addInfo { get; set; }
-
-        public MonsterAttributes(List<string> myReaderList) {
-            id = int.Parse(myReaderList[0]);
-            name = myReaderList[1];
-            size = myReaderList[2];
-            type = myReaderList[3];
-            align = myReaderList[4];
-            challenge = int.Parse(myReaderList[5]);
-            // nothing in column xp = int.Parse(myReaderList[6]);
-            cr = double.Parse(myReaderList[7]);
-            ac = int.Parse(myReaderList[8]);
-            hp = int.Parse(myReaderList[9]);
-            hitDice = myReaderList[10];
-            speeds = myReaderList[11];
-            str = int.Parse(myReaderList[12]);
-            dex = int.Parse(myReaderList[13]);
-            con = int.Parse(myReaderList[14]);
-            intt = int.Parse(myReaderList[15]);
-            wis = int.Parse(myReaderList[16]);
-            cha = int.Parse(myReaderList[17]);
-            savingThrows = myReaderList[18];
-            skills = myReaderList[19];
-            wri = myReaderList[20];
-            senses = myReaderList[21];
-            languages = myReaderList[22];
-            additional = myReaderList[23];
-            actions = myReaderList[24];
-            arctic = myReaderList[25];
-            coast = myReaderList[26];
-            desert = myReaderList[27];
-            forest = myReaderList[28];
-            grassland = myReaderList[29];
-            hill = myReaderList[30];
-            mountain = myReaderList[31];
-            swamp = myReaderList[32];
-            underdark = myReaderList[33];
-            underwater = myReaderList[34];
-            urban = myReaderList[35];
-            font = myReaderList[36];
-            addInfo = myReaderList[37];
-        }
     }
 }

@@ -134,19 +134,21 @@ namespace WindowsFormsApp1 {
                 conDatabase.Open();
                 myReader = cmdDatabase.ExecuteReader();
                 while (myReader.Read()) {
-                    
-                    string[] monsterRow = new string[] {myReader.GetString("Name"), myReader.GetString("Size"),
-                        myReader.GetString("Type"), myReader.GetInt32("Challenge").ToString()};
-
+                   
                     //totalXP += myReader.GetInt32("XP");
                     // add to json file
                     List<string> monsterAttList = new List<string>();
                     for (int i = 0; i < myReader.FieldCount; i++) {
                         monsterAttList.Add(myReader.GetValue(i).ToString());
                     }
-                    MonsterAttributes monAtt = new MonsterAttributes(monsterAttList);
+                    MonsterAttributes monAtt = new MonsterAttributes();
+                    AssignAttributes(monAtt, monsterAttList);
                     string completeMon = JsonConvert.SerializeObject(monAtt);
                     File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items.Count + ".json", completeMon);
+
+
+                    string[] monsterRow = new string[] {myReader.GetString("Name"), myReader.GetString("Size"),
+                        myReader.GetString("Type"), myReader.GetInt32("Challenge").ToString()};
 
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
@@ -159,11 +161,67 @@ namespace WindowsFormsApp1 {
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e) {
-            Monster_Form mForm = new Monster_Form(123);
-            Console.WriteLine("Count: {0}", listView1.SelectedItems.Count);
-            Console.WriteLine("Item: {0}", listView1.SelectedItems[0].Text);
-            mForm.Text = listView1.SelectedItems[0].Text;
-            mForm.Show();
+
+            // cycle through open forms and see if current selected monster form is open
+            FormCollection fc = Application.OpenForms;
+            bool monsterFormExists = false;
+            foreach (Form item in fc) {
+                if (item.Text == listView1.SelectedItems[0].Text + listView1.SelectedItems[0].Index) {
+                    monsterFormExists = true;
+                    item.BringToFront();
+                }
+            }
+
+            // create monster form
+            if (!monsterFormExists) {
+                MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.SelectedItems[0].Index + ".json"));
+                Monster_Form mForm = new Monster_Form(completeMon);
+                Console.WriteLine("Count: {0}", completeMon.name);
+                mForm.Text = listView1.SelectedItems[0].Text + listView1.SelectedItems[0].Index;
+                mForm.Show();
+            }
+        }
+
+        
+        public void AssignAttributes(MonsterAttributes monAtt, List<string> myReaderList) {
+            monAtt.id = int.Parse(myReaderList[0]);
+            monAtt.name = myReaderList[1];
+            monAtt.size = myReaderList[2];
+            monAtt.type = myReaderList[3];
+            monAtt.align = myReaderList[4];
+            monAtt.challenge = int.Parse(myReaderList[5]);
+            // nothing in column xp = int.Parse(myReaderList[6]);
+            monAtt.cr = double.Parse(myReaderList[7]);
+            monAtt.ac = int.Parse(myReaderList[8]);
+            monAtt.hp = int.Parse(myReaderList[9]);
+            monAtt.hitDice = myReaderList[10];
+            monAtt.speeds = myReaderList[11];
+            monAtt.str = int.Parse(myReaderList[12]);
+            monAtt.dex = int.Parse(myReaderList[13]);
+            monAtt.con = int.Parse(myReaderList[14]);
+            monAtt.intt = int.Parse(myReaderList[15]);
+            monAtt.wis = int.Parse(myReaderList[16]);
+            monAtt.cha = int.Parse(myReaderList[17]);
+            monAtt.savingThrows = myReaderList[18];
+            monAtt.skills = myReaderList[19];
+            monAtt.wri = myReaderList[20];
+            monAtt.senses = myReaderList[21];
+            monAtt.languages = myReaderList[22];
+            monAtt.additional = myReaderList[23];
+            monAtt.actions = myReaderList[24];
+            monAtt.arctic = myReaderList[25];
+            monAtt.coast = myReaderList[26];
+            monAtt.desert = myReaderList[27];
+            monAtt.forest = myReaderList[28];
+            monAtt.grassland = myReaderList[29];
+            monAtt.hill = myReaderList[30];
+            monAtt.mountain = myReaderList[31];
+            monAtt.swamp = myReaderList[32];
+            monAtt.underdark = myReaderList[33];
+            monAtt.underwater = myReaderList[34];
+            monAtt.urban = myReaderList[35];
+            monAtt.font = myReaderList[36];
+            monAtt.addInfo = myReaderList[37];
         }
     }
 }
