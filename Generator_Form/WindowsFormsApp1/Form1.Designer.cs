@@ -52,7 +52,10 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.button12 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -320,11 +323,32 @@
             this.textBox12.Text = "00";
             this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(173, 266);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(204, 23);
+            this.button12.TabIndex = 26;
+            this.button12.Text = "Read Data from XML";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(173, 296);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(204, 150);
+            this.dataGridView1.TabIndex = 27;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox11);
@@ -353,6 +377,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,6 +413,8 @@
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

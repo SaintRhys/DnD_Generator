@@ -112,7 +112,6 @@ namespace WindowsFormsApp1 {
                     controlCount += (h / 22) - 1;
                 }
                 //controlCount = newPanel1.Controls.Count;
-                
             }
         }
     }
