@@ -125,35 +125,34 @@ namespace WindowsFormsApp1 {
 
         private void PopulateViewListInternalDatabase(int chl) {
             string conString = "data source=MonsterDB.db;";
-            string query = "SELECT * FROM MonsterDB.db.monster_list WHERE challenge='" + chl + "' ORDER BY RAND() LIMIT 1;";
+            string query = "SELECT * FROM monster_list WHERE challenge='" + chl + "' ORDER BY RANDOM() LIMIT 1;";
 
             SQLiteConnection conDatabase = new SQLiteConnection(conString);
             SQLiteCommand cmdDatabase = new SQLiteCommand(query, conDatabase);
             SQLiteDataReader myReader;
-
             try {
                 int totalXP = int.Parse(textBox10.Text);
                 conDatabase.Open();
                 myReader = cmdDatabase.ExecuteReader();
                 while (myReader.Read()) {
-
                     //totalXP += myReader.GetInt32("XP");
                     // add to json file
                     List<string> monsterAttList = new List<string>();
                     for (int i = 0; i < myReader.FieldCount; i++) {
                         monsterAttList.Add(myReader.GetValue(i).ToString());
                     }
+
                     MonsterAttributes monAtt = new MonsterAttributes();
                     AssignAttributes(monAtt, monsterAttList);
                     string completeMon = JsonConvert.SerializeObject(monAtt);
                     File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items.Count + ".json", completeMon);
-
-
-                    string[] monsterRow = new string[] {myReader.GetString(2), myReader.GetString(3),
-                        myReader.GetString(4), myReader.GetInt32(5).ToString()};
+                    
+                    string[] monsterRow = new string[] {myReader.GetValue(0).ToString(), myReader.GetString(1),
+                        myReader.GetString(2), myReader.GetString(3)};
 
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
+                    
                 }
 
                 textBox10.Text = totalXP.ToString();

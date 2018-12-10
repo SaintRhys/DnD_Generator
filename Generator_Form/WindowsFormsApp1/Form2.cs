@@ -35,9 +35,11 @@ namespace WindowsFormsApp1 {
             SetUpMonsterProps(new string[] {monAtt.savingThrows, monAtt.skills, monAtt.wri, monAtt.wri, monAtt.wri, monAtt.senses, monAtt.languages, monAtt.challenge.ToString() });
         }
 
-        private void AddNewPanel(int controlCount, Panel newPanel, int p) {
-            newPanel.Location = new Point(10, ((panel1.Controls.Count - p) * 30 * controlCount) + 10);
+        private void AddNewPanel(Panel newPanel, int offset) {
+            Console.WriteLine("Control C: {0} and PCC: {1}", panel1.Controls.Count, offset);
+            newPanel.Location = new Point(10, offset);
             newPanel.Width = panel1.Width - 20;
+            newPanel.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(newPanel);
 
             Label line = new Label {
@@ -54,7 +56,7 @@ namespace WindowsFormsApp1 {
         private void SetUpMonsterProps(string[] props) {
             int controlCount = 1;
             Panel newPanel = new Panel();
-            AddNewPanel(controlCount, newPanel, 0);
+            AddNewPanel(newPanel, 1);
 
             for (int i = 0; i < props.Length; i++) {
                 if (props[i] != "None") {
@@ -76,42 +78,96 @@ namespace WindowsFormsApp1 {
             newPanel.Height = controlCount * 25;
 
             Panel newPanel1 = new Panel();
-            AddNewPanel(controlCount, newPanel1, 1);
+            if (monAtt.additional != "None") {
+                
+                AddNewPanel(newPanel1, 0);
+                newPanel1.Height = 25;
 
-            string[] additionalInfo = monAtt.additional.Split(',');
+                string[] additionalInfo = monAtt.additional.Split(',');
 
-            controlCount = 0;
-            for (int i = 0; i < additionalInfo.Length; i++) {
-                if (additionalInfo[i] != "None") {
-                    TextBox mProp = new TextBox();
-                    TextBox mPropText = new TextBox();
+                controlCount = 0;
+                for (int i = 0; i < additionalInfo.Length; i++) {
+                    if (additionalInfo[i] != "None") {
+                        TextBox mProp = new TextBox();
+                        TextBox mPropText = new TextBox();
 
-                    mProp.Text = additionalInfo[i];
-                    mProp.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
-                    newPanel1.Controls.Add(mProp);
+                        mProp.Text = additionalInfo[i];
+                        mProp.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
+                        newPanel1.Controls.Add(mProp);
 
-                    mPropText.Multiline = true;
-                    mPropText.Text = "Lorem ipsum congue sem sociosqu ullamcorper lacus massa hendrerit velit praesent lorem viverra adipiscing vel, porta etiam cursus metus massa curae justo at ac bibendum placerat ut purus gravida quam gravida elementum habitant sociosqu hac taciti sed.";
-                    mPropText.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
-                    mPropText.Width = newPanel1.Width - 10;
+                        mPropText.Multiline = true;
+                        mPropText.Text = "Lorem ipsum congue sem sociosqu ullamcorper lacus massa hendrerit velit praesent lorem viverra adipiscing vel, porta etiam cursus metus massa curae justo at ac bibendum placerat ut purus gravida quam gravida elementum habitant sociosqu hac taciti sed.";
+                        mPropText.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
+                        mPropText.Width = newPanel1.Width - 10;
 
-                    // gets height needed for text box
-                    Size sz = new Size(mPropText.ClientSize.Width, int.MaxValue);
-                    TextFormatFlags flags = TextFormatFlags.WordBreak;
-                    int padding = 3;
-                    int borders = mPropText.Height - mPropText.ClientSize.Height;
-                    sz = TextRenderer.MeasureText(mPropText.Text, mPropText.Font, sz, flags);
-                    int h = sz.Height + borders + padding;
-                    if (mPropText.Top + h > this.ClientSize.Height - 10) {
-                        h = this.ClientSize.Height - 10 - mPropText.Top;
+                        // gets height needed for text box
+                        Size sz = new Size(mPropText.ClientSize.Width, int.MaxValue);
+                        TextFormatFlags flags = TextFormatFlags.WordBreak;
+                        int padding = 3;
+                        int borders = mPropText.Height - mPropText.ClientSize.Height;
+                        sz = TextRenderer.MeasureText(mPropText.Text, mPropText.Font, sz, flags);
+                        int h = sz.Height + borders + padding;
+                        if (mPropText.Top + h > this.ClientSize.Height - 10) {
+                            h = this.ClientSize.Height - 10 - mPropText.Top;
+                        }
+                        mPropText.Height = h;
+
+                        newPanel1.Controls.Add(mPropText);
+                        newPanel1.Height += h + 25;
+                        controlCount += (h / 22) - 1;
                     }
-                    mPropText.Height = h;
-
-                    newPanel1.Controls.Add(mPropText);
-                    newPanel1.Height += h;
-                    controlCount += (h / 22) - 1;
                 }
-                //controlCount = newPanel1.Controls.Count;
+            }
+
+            if (monAtt.actions != "None") {
+                Panel newPanel2 = new Panel();
+                AddNewPanel(controlCount, newPanel2, 2, newPanel1.Height + 25);
+
+                string[] actions = monAtt.actions.Split(',');
+
+                TextBox actionText = new TextBox();
+                actionText.Text = "ACTIONS";
+                actionText.Location = new Point((newPanel2.Width / 2) - (actionText.Width / 2), 10);
+                newPanel2.Controls.Add(actionText);
+
+                /*
+                controlCount = 0;
+                for (int i = 0; i < actions.Length; i++) {
+                    if (actions[i] != "None") {
+                        TextBox mProp = new TextBox();
+                        TextBox mPropText = new TextBox();
+
+                        mProp.Text = actions[i];
+                        mProp.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25);
+                        newPanel2.Controls.Add(mProp);
+
+                        mPropText.Multiline = true;
+                        mPropText.Text = "Lorem ipsum congue sem sociosqu ullamcorper lacus massa hendrerit velit praesent lorem viverra adipiscing vel, porta etiam cursus metus massa curae justo at ac bibendum placerat ut purus gravida quam gravida elementum habitant sociosqu hac taciti sed.";
+                        mPropText.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25);
+                        mPropText.Width = newPanel2.Width - 10;
+
+                        // gets height needed for text box
+                        Size sz = new Size(mPropText.ClientSize.Width, int.MaxValue);
+                        TextFormatFlags flags = TextFormatFlags.WordBreak;
+                        int padding = 3;
+                        int borders = mPropText.Height - mPropText.ClientSize.Height;
+                        sz = TextRenderer.MeasureText(mPropText.Text, mPropText.Font, sz, flags);
+                        int h = sz.Height + borders + padding;
+                        if (mPropText.Top + h > this.ClientSize.Height - 10) {
+                            h = this.ClientSize.Height - 10 - mPropText.Top;
+                        }
+                        mPropText.Height = h;
+
+                        newPanel2.Controls.Add(mPropText);
+                        newPanel2.Height += h;
+                        controlCount += (h / 22) - 1;
+                    }
+
+                    //controlCount = newPanel1.Controls.Count;
+                    }
+                }
+
+            */
             }
         }
     }
