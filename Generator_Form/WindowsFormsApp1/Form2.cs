@@ -79,8 +79,7 @@ namespace WindowsFormsApp1 {
 
             Panel newPanel1 = new Panel();
             if (monAtt.additional != "None") {
-                
-                AddNewPanel(newPanel1, 0);
+                AddNewPanel(newPanel1, newPanel.Location.Y + newPanel.Height + 25);
                 newPanel1.Height = 25;
 
                 string[] additionalInfo = monAtt.additional.Split(',');
@@ -121,7 +120,8 @@ namespace WindowsFormsApp1 {
 
             if (monAtt.actions != "None") {
                 Panel newPanel2 = new Panel();
-                AddNewPanel(controlCount, newPanel2, 2, newPanel1.Height + 25);
+                AddNewPanel(newPanel2, newPanel1.Location.Y + newPanel1.Height + 25);
+                newPanel2.Height = 25;
 
                 string[] actions = monAtt.actions.Split(',');
 
@@ -130,7 +130,7 @@ namespace WindowsFormsApp1 {
                 actionText.Location = new Point((newPanel2.Width / 2) - (actionText.Width / 2), 10);
                 newPanel2.Controls.Add(actionText);
 
-                /*
+                
                 controlCount = 0;
                 for (int i = 0; i < actions.Length; i++) {
                     if (actions[i] != "None") {
@@ -162,12 +162,7 @@ namespace WindowsFormsApp1 {
                         newPanel2.Height += h;
                         controlCount += (h / 22) - 1;
                     }
-
-                    //controlCount = newPanel1.Controls.Count;
-                    }
                 }
-
-            */
             }
         }
     }
