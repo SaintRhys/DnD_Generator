@@ -85,19 +85,21 @@ namespace WindowsFormsApp1 {
                 string[] additionalInfo = monAtt.additional.Split(',');
 
                 controlCount = 0;
+                int controlCountCount = 0;
                 for (int i = 0; i < additionalInfo.Length; i++) {
                     if (additionalInfo[i] != "None") {
                         TextBox mProp = new TextBox();
                         TextBox mPropText = new TextBox();
 
                         mProp.Text = additionalInfo[i];
-                        mProp.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
+                        Console.WriteLine("Control {0} and num {1}", newPanel1.Controls.Count, (controlCountCount + 1) * 2 - 1);
+                        mProp.Location = new Point(10, i == 0 ? 10 : newPanel1.Controls[newPanel1.Controls.Count - 1].Location.Y + newPanel1.Controls[newPanel1.Controls.Count - 1].Height + 10);
                         newPanel1.Controls.Add(mProp);
 
                         mPropText.Multiline = true;
                         mPropText.Text = "Lorem ipsum congue sem sociosqu ullamcorper lacus massa hendrerit velit praesent lorem viverra adipiscing vel, porta etiam cursus metus massa curae justo at ac bibendum placerat ut purus gravida quam gravida elementum habitant sociosqu hac taciti sed.";
-                        mPropText.Location = new Point(10, (newPanel1.Controls.Count + controlCount) * 25);
-                        mPropText.Width = newPanel1.Width - 10;
+                        mPropText.Location = new Point(10, i == 0 ? 35 : newPanel1.Controls[newPanel1.Controls.Count - 1].Location.Y + 25);
+                        mPropText.Width = newPanel1.Width - 20;
 
                         // gets height needed for text box
                         Size sz = new Size(mPropText.ClientSize.Width, int.MaxValue);
@@ -112,8 +114,10 @@ namespace WindowsFormsApp1 {
                         mPropText.Height = h;
 
                         newPanel1.Controls.Add(mPropText);
-                        newPanel1.Height += h + 25;
+                        //newPanel1.Height += h + 30;
+                        newPanel1.Height = newPanel1.Controls[newPanel1.Controls.Count - 1].Location.Y + newPanel1.Controls[newPanel1.Controls.Count - 1].Height + 10;
                         controlCount += (h / 22) - 1;
+                        controlCountCount++;
                     }
                 }
             }
@@ -121,7 +125,7 @@ namespace WindowsFormsApp1 {
             if (monAtt.actions != "None") {
                 Panel newPanel2 = new Panel();
                 AddNewPanel(newPanel2, newPanel1.Location.Y + newPanel1.Height + 25);
-                newPanel2.Height = 25;
+                
 
                 string[] actions = monAtt.actions.Split(',');
 
@@ -129,8 +133,8 @@ namespace WindowsFormsApp1 {
                 actionText.Text = "ACTIONS";
                 actionText.Location = new Point((newPanel2.Width / 2) - (actionText.Width / 2), 10);
                 newPanel2.Controls.Add(actionText);
+                newPanel2.Height = actionText.Location.Y + actionText.Height + 10;
 
-                
                 controlCount = 0;
                 for (int i = 0; i < actions.Length; i++) {
                     if (actions[i] != "None") {
@@ -138,13 +142,13 @@ namespace WindowsFormsApp1 {
                         TextBox mPropText = new TextBox();
 
                         mProp.Text = actions[i];
-                        mProp.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25);
+                        mProp.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25 + actionText.Height - 10);
                         newPanel2.Controls.Add(mProp);
 
                         mPropText.Multiline = true;
                         mPropText.Text = "Lorem ipsum congue sem sociosqu ullamcorper lacus massa hendrerit velit praesent lorem viverra adipiscing vel, porta etiam cursus metus massa curae justo at ac bibendum placerat ut purus gravida quam gravida elementum habitant sociosqu hac taciti sed.";
-                        mPropText.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25);
-                        mPropText.Width = newPanel2.Width - 10;
+                        mPropText.Location = new Point(10, i == 0 ? 35 : newPanel2.Controls[newPanel2.Controls.Count - 1].Location.Y + 25);
+                        mPropText.Width = newPanel2.Width - 20;
 
                         // gets height needed for text box
                         Size sz = new Size(mPropText.ClientSize.Width, int.MaxValue);
@@ -158,12 +162,15 @@ namespace WindowsFormsApp1 {
                         }
                         mPropText.Height = h;
 
+                        Console.WriteLine("H: {0} and height: {1}", h, newPanel2.Height);
+
                         newPanel2.Controls.Add(mPropText);
-                        newPanel2.Height += h;
+                        newPanel2.Height += h + 25;
                         controlCount += (h / 22) - 1;
                     }
                 }
             }
+            panel1.Width = this.Width - 28;
         }
     }
 }

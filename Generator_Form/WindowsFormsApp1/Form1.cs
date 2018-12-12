@@ -121,6 +121,8 @@ namespace WindowsFormsApp1 {
 
             textBox9.Text = string.Join(", ", monsterList);
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            CloseUnneededForms(this.Name);
         }
 
         private void PopulateViewListInternalDatabase(int chl) {
@@ -222,7 +224,17 @@ namespace WindowsFormsApp1 {
             }
         }
 
-        
+        public void CloseUnneededForms(string formName) {
+            List<Form> formList = new List<Form>();
+            foreach (Form frm in Application.OpenForms) {
+                if (frm.Name != this.Name)
+                    formList.Add(frm);
+            }
+            foreach (Form frm in formList) {
+                frm.Close();
+            }
+        }
+
         public void AssignAttributes(MonsterAttributes monAtt, List<string> myReaderList) {
             monAtt.id = int.Parse(myReaderList[0]);
             monAtt.name = myReaderList[1];
