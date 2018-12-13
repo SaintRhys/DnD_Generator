@@ -84,6 +84,7 @@ namespace WindowsFormsApp1 {
 
         private void button11_Click(object sender, EventArgs e) {
             //Generate encounter
+            DeleteUnneededJsons();
             int level = int.Parse(textBox1.Text);
             int pSize = int.Parse(textBox4.Text);
             int diff = (Array.IndexOf(difficulty, textBox6.Text) + 1);
@@ -154,7 +155,8 @@ namespace WindowsFormsApp1 {
 
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
-                    
+
+                    listView2.Items.Add(new ListViewItem(new string[] {"Man",  "5", "10/10"}));
                 }
 
                 textBox10.Text = totalXP.ToString();
@@ -235,6 +237,16 @@ namespace WindowsFormsApp1 {
             }
         }
 
+        public void DeleteUnneededJsons() {
+            string filePath = @Application.UserAppDataPath + "/Monster_Lists/";
+            DirectoryInfo d = new DirectoryInfo(filePath);
+
+            foreach (var file in d.GetFiles("*.Json")) {
+                Console.WriteLine("File name: " + file.FullName);
+                file.Delete();
+            }
+        }
+
         public void AssignAttributes(MonsterAttributes monAtt, List<string> myReaderList) {
             monAtt.id = int.Parse(myReaderList[0]);
             monAtt.name = myReaderList[1];
@@ -278,6 +290,31 @@ namespace WindowsFormsApp1 {
 
         private void button12_Click(object sender, EventArgs e) {
 
+        }
+
+        private void label1_DragEnter(object sender, DragEventArgs e) {
+            Console.WriteLine("Moving");
+        }
+
+        bool privateDrag = false;
+        private void listView2_ItemDrag(object sender, ItemDragEventArgs e) {
+            privateDrag = true;
+            DoDragDrop(e.Item, DragDropEffects.Copy);
+            privateDrag = false;
+        }
+
+        private void listView2_DragEnter(object sender, DragEventArgs e) {
+            if (privateDrag)
+                e.Effect = e.AllowedEffect;
+        }
+
+        private void listView2_DragOver(object sender, DragEventArgs e) {
+            var pos = listView2.PointToClient(new System.Drawing.Point(e.X, e.Y));
+            var hit = listView2.HitTest(pos);
+            if(hit.Item != null && hit.Item.Tag != null) {
+                var dragItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
+                //(dragItem, (string)hit.Item.Tag);
+            }
         }
     }
 }

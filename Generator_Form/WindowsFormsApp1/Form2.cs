@@ -78,6 +78,7 @@ namespace WindowsFormsApp1 {
             newPanel.Height = controlCount * 25;
 
             Panel newPanel1 = new Panel();
+            // add monster properties panel
             if (monAtt.additional != "None") {
                 AddNewPanel(newPanel1, newPanel.Location.Y + newPanel.Height + 25);
                 newPanel1.Height = 25;
@@ -122,6 +123,7 @@ namespace WindowsFormsApp1 {
                 }
             }
 
+            // add monster actions panel
             if (monAtt.actions != "None") {
                 Panel newPanel2 = new Panel();
                 AddNewPanel(newPanel2, newPanel1.Location.Y + newPanel1.Height + 25);
@@ -142,7 +144,7 @@ namespace WindowsFormsApp1 {
                         TextBox mPropText = new TextBox();
 
                         mProp.Text = actions[i];
-                        mProp.Location = new Point(10, (newPanel2.Controls.Count + controlCount) * 25 + actionText.Height - 10);
+                        mProp.Location = new Point(10, i == 0 ? 10 : newPanel2.Controls[newPanel2.Controls.Count - 1].Location.Y + newPanel2.Controls[newPanel2.Controls.Count - 1].Height + 10);
                         newPanel2.Controls.Add(mProp);
 
                         mPropText.Multiline = true;
@@ -165,7 +167,7 @@ namespace WindowsFormsApp1 {
                         Console.WriteLine("H: {0} and height: {1}", h, newPanel2.Height);
 
                         newPanel2.Controls.Add(mPropText);
-                        newPanel2.Height += h + 25;
+                        newPanel2.Height = newPanel2.Controls[newPanel2.Controls.Count - 1].Location.Y + newPanel2.Controls[newPanel2.Controls.Count - 1].Height + 10;
                         controlCount += (h / 22) - 1;
                     }
                 }
