@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="monster_listModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="monsters">
+          <Key>
+            <PropertyRef Name="MonsterID" />
+          </Key>
+          <Property Name="MonsterID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+          <Property Name="Size" Type="nchar" MaxLength="10" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="Align" Type="nchar" MaxLength="10" />
+          <Property Name="Challenge" Type="nchar" MaxLength="10" />
+          <Property Name="XP" Type="nchar" MaxLength="10" />
+          <Property Name="CR" Type="float" />
+          <Property Name="AC" Type="int" />
+          <Property Name="HP" Type="int" />
+          <Property Name="Hit_Dice" Type="nchar" MaxLength="10" />
+          <Property Name="Speeds" Type="nchar" MaxLength="10" />
+          <Property Name="STR" Type="int" />
+          <Property Name="DEX" Type="int" />
+          <Property Name="CON" Type="int" />
+          <Property Name="INT" Type="int" />
+          <Property Name="WIS" Type="int" />
+          <Property Name="CHA" Type="int" />
+          <Property Name="Sav_Throws" Type="nchar" MaxLength="10" />
+          <Property Name="Skills" Type="nchar" MaxLength="10" />
+          <Property Name="WRI" Type="nchar" MaxLength="10" />
+          <Property Name="Senses" Type="nchar" MaxLength="10" />
+          <Property Name="Languages" Type="nchar" MaxLength="10" />
+          <Property Name="Additional" Type="nchar" MaxLength="10" />
+          <Property Name="Actions" Type="nchar" MaxLength="10" />
+          <Property Name="Arctic" Type="nchar" MaxLength="10" />
+          <Property Name="Coast" Type="nchar" MaxLength="10" />
+          <Property Name="Desert" Type="nchar" MaxLength="10" />
+          <Property Name="Forest" Type="nchar" MaxLength="10" />
+          <Property Name="Grassland" Type="nchar" MaxLength="10" />
+          <Property Name="Hill" Type="nchar" MaxLength="10" />
+          <Property Name="Mountain" Type="nchar" MaxLength="10" />
+          <Property Name="Swamp" Type="nchar" MaxLength="10" />
+          <Property Name="Underdark" Type="nchar" MaxLength="10" />
+          <Property Name="Underwater" Type="nchar" MaxLength="10" />
+          <Property Name="Urban" Type="nchar" MaxLength="10" />
+          <Property Name="Font" Type="nchar" MaxLength="10" />
+          <Property Name="Add_Info" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="monster_listModelStoreContainer">
+          <EntitySet Name="monsters" EntityType="Self.monsters" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="monster_listModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="monster">
+          <Key>
+            <PropertyRef Name="MonsterID" />
+          </Key>
+          <Property Name="MonsterID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Align" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Challenge" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="XP" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CR" Type="Double" />
+          <Property Name="AC" Type="Int32" />
+          <Property Name="HP" Type="Int32" />
+          <Property Name="Hit_Dice" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Speeds" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="STR" Type="Int32" />
+          <Property Name="DEX" Type="Int32" />
+          <Property Name="CON" Type="Int32" />
+          <Property Name="INT" Type="Int32" />
+          <Property Name="WIS" Type="Int32" />
+          <Property Name="CHA" Type="Int32" />
+          <Property Name="Sav_Throws" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Skills" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="WRI" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Senses" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Languages" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Additional" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Actions" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Arctic" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Coast" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Desert" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Forest" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Grassland" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Hill" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Mountain" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Swamp" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Underdark" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Underwater" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Urban" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Font" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Add_Info" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="monster_listEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="monsters" EntityType="Self.monster" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="monster_listModelStoreContainer" CdmEntityContainer="monster_listEntities">
+          <EntitySetMapping Name="monsters">
+            <EntityTypeMapping TypeName="monster_listModel.monster">
+              <MappingFragment StoreEntitySet="monsters">
+                <ScalarProperty Name="MonsterID" ColumnName="MonsterID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Align" ColumnName="Align" />
+                <ScalarProperty Name="Challenge" ColumnName="Challenge" />
+                <ScalarProperty Name="XP" ColumnName="XP" />
+                <ScalarProperty Name="CR" ColumnName="CR" />
+                <ScalarProperty Name="AC" ColumnName="AC" />
+                <ScalarProperty Name="HP" ColumnName="HP" />
+                <ScalarProperty Name="Hit_Dice" ColumnName="Hit_Dice" />
+                <ScalarProperty Name="Speeds" ColumnName="Speeds" />
+                <ScalarProperty Name="STR" ColumnName="STR" />
+                <ScalarProperty Name="DEX" ColumnName="DEX" />
+                <ScalarProperty Name="CON" ColumnName="CON" />
+                <ScalarProperty Name="INT" ColumnName="INT" />
+                <ScalarProperty Name="WIS" ColumnName="WIS" />
+                <ScalarProperty Name="CHA" ColumnName="CHA" />
+                <ScalarProperty Name="Sav_Throws" ColumnName="Sav_Throws" />
+                <ScalarProperty Name="Skills" ColumnName="Skills" />
+                <ScalarProperty Name="WRI" ColumnName="WRI" />
+                <ScalarProperty Name="Senses" ColumnName="Senses" />
+                <ScalarProperty Name="Languages" ColumnName="Languages" />
+                <ScalarProperty Name="Additional" ColumnName="Additional" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="Arctic" ColumnName="Arctic" />
+                <ScalarProperty Name="Coast" ColumnName="Coast" />
+                <ScalarProperty Name="Desert" ColumnName="Desert" />
+                <ScalarProperty Name="Forest" ColumnName="Forest" />
+                <ScalarProperty Name="Grassland" ColumnName="Grassland" />
+                <ScalarProperty Name="Hill" ColumnName="Hill" />
+                <ScalarProperty Name="Mountain" ColumnName="Mountain" />
+                <ScalarProperty Name="Swamp" ColumnName="Swamp" />
+                <ScalarProperty Name="Underdark" ColumnName="Underdark" />
+                <ScalarProperty Name="Underwater" ColumnName="Underwater" />
+                <ScalarProperty Name="Urban" ColumnName="Urban" />
+                <ScalarProperty Name="Font" ColumnName="Font" />
+                <ScalarProperty Name="Add_Info" ColumnName="Add_Info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
