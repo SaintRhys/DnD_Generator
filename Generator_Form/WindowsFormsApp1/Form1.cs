@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 using Newtonsoft.Json;
-using System.Xml;
+using System.Drawing;
 
 namespace WindowsFormsApp1 {
     public partial class Form1 : Form {
@@ -98,7 +98,8 @@ namespace WindowsFormsApp1 {
 
             textBox10.Text = "0";
             listView1.Items.Clear();
-            
+            listView2.Items.Clear();
+
             foreach (int i in chlLvl) {
                 if (i / challenge <= 1) {
                     posChl.Add(i);
@@ -156,7 +157,7 @@ namespace WindowsFormsApp1 {
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
 
-                    listView2.Items.Add(new ListViewItem(new string[] {"Man",  "5", "10/10"}));
+                    listView2.Items.Add(new ListViewItem(new string[] {myReader.GetValue(1).ToString(),  "5", "10/10"}));
                 }
 
                 textBox10.Text = totalXP.ToString();
@@ -205,7 +206,7 @@ namespace WindowsFormsApp1 {
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e) {
-
+            // double click on monster in main window
             // cycle through open forms and see if current selected monster form is open
             FormCollection fc = Application.OpenForms;
             bool monsterFormExists = false;
@@ -292,29 +293,74 @@ namespace WindowsFormsApp1 {
 
         }
 
-        private void label1_DragEnter(object sender, DragEventArgs e) {
-            Console.WriteLine("Moving");
+        private void listView2_ItemDrag(object sender, ItemDragEventArgs e) {
+            listView2.DoDragDrop(listView2.SelectedItems, DragDropEffects.Move);
         }
 
-        bool privateDrag = false;
-        private void listView2_ItemDrag(object sender, ItemDragEventArgs e) {
-            privateDrag = true;
-            DoDragDrop(e.Item, DragDropEffects.Copy);
-            privateDrag = false;
+        private void listView2_DragDrop(object sender, DragEventArgs e) {
+            // drag and drop monsters or players
+            if (listView2.SelectedItems.Count == 0) return;
+            Point pt = listView2.PointToClient(new Point(e.X, e.Y));
+            ListViewItem itemDrag = listView2.GetItemAt(pt.X, pt.Y);
+            ListViewItem lowestItem = listView2.Items[listView2.Items.Count - 1];
+
+            int indexOffset = -1;
+            if (itemDrag == null && (lowestItem.Position.Y + lowestItem.Bounds.Size.Height) <= pt.Y) {
+                itemDrag = lowestItem;
+                indexOffset = 0;
+            } else if (itemDrag == null) return;
+
+            int itemDragIndex = itemDrag.Index;
+            ListViewItem[] sel = new ListViewItem[listView2.SelectedItems.Count];
+            for (int i = 0; i < listView2.SelectedItems.Count; i++) {
+                sel[i] = listView2.SelectedItems[i];
+            }
+            for (int i = 0; i < sel.GetLength(0); i++) {
+                ListViewItem item = sel[i];
+                int itemIndex = itemDragIndex;
+
+                if (itemIndex == item.Index) return;
+                if (item.Index < itemIndex)
+                    itemIndex++;
+                else
+                    itemIndex = itemDragIndex + 1;
+
+                ListViewItem insertItem = (ListViewItem)item.Clone();
+                listView2.Items.Insert(itemIndex + indexOffset, insertItem);
+                listView2.Items.Remove(item);
+            }
         }
 
         private void listView2_DragEnter(object sender, DragEventArgs e) {
-            if (privateDrag)
-                e.Effect = e.AllowedEffect;
+            e.Effect = DragDropEffects.Move;
         }
 
-        private void listView2_DragOver(object sender, DragEventArgs e) {
-            var pos = listView2.PointToClient(new System.Drawing.Point(e.X, e.Y));
-            var hit = listView2.HitTest(pos);
-            if(hit.Item != null && hit.Item.Tag != null) {
-                var dragItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
-                //(dragItem, (string)hit.Item.Tag);
+        private void button12_Click_1(object sender, EventArgs e) {
+            // open all monsters
+            for (int i = 0; i < listView1.Items.Count; i++) {
+                FormCollection fc = Application.OpenForms;
+                bool monsterFormExists = false;
+                foreach (Form item in fc) {
+                    if (item.Text == listView1.Items[i].Text + listView1.Items[i].Index) {
+                        monsterFormExists = true;
+                        item.BringToFront();
+                    }
+                }
+
+                // create monster form
+                if (!monsterFormExists) {
+                    MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items[i].Index + ".json"));
+                    Monster_Form mForm = new Monster_Form(completeMon);
+                    Console.WriteLine("Count: {0}", completeMon.name);
+                    mForm.Text = listView1.Items[i].Text + listView1.Items[i].Index;
+                    mForm.Show();
+                }
             }
+        }
+
+        private void button13_Click(object sender, EventArgs e) {
+            PartyForm partyForm = new PartyForm();
+            partyForm.Show();
         }
     }
 }
