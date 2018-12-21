@@ -73,8 +73,17 @@ namespace WindowsFormsApp1 {
             string filePath = @Application.UserAppDataPath + "/Monster_Lists";
             if (!Directory.Exists(filePath)) {
                 Console.WriteLine(Application.UserAppDataPath + "/Monster_Lists");
+                Directory.CreateDirectory(filePath);
             } else {
                 Console.WriteLine("Path found");
+            }
+
+            filePath = @Application.UserAppDataPath + "/Party_Lists";
+            if (!Directory.Exists(filePath)) {
+                Console.WriteLine(Application.UserAppDataPath + "/Party_Lists");
+                Directory.CreateDirectory(filePath);
+            } else {
+                Console.WriteLine("Path found: " + filePath);
             }
         }
 

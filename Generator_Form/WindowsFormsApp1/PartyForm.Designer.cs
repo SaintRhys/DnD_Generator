@@ -31,6 +31,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.partyNameTextBox = new System.Windows.Forms.TextBox();
+            this.addPartyButton = new System.Windows.Forms.Button();
+            this.addPartyGroupBox = new System.Windows.Forms.GroupBox();
+            this.addPartyGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // listView1
@@ -94,6 +98,7 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "New Party";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -105,11 +110,40 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // partyNameTextBox
+            // 
+            this.partyNameTextBox.Location = new System.Drawing.Point(6, 21);
+            this.partyNameTextBox.Name = "partyNameTextBox";
+            this.partyNameTextBox.Size = new System.Drawing.Size(134, 22);
+            this.partyNameTextBox.TabIndex = 9;
+            // 
+            // addPartyButton
+            // 
+            this.addPartyButton.Location = new System.Drawing.Point(6, 49);
+            this.addPartyButton.Name = "addPartyButton";
+            this.addPartyButton.Size = new System.Drawing.Size(134, 26);
+            this.addPartyButton.TabIndex = 10;
+            this.addPartyButton.Text = "Add";
+            this.addPartyButton.UseVisualStyleBackColor = true;
+            this.addPartyButton.Click += new System.EventHandler(this.addPartyButton_Click);
+            // 
+            // addPartyGroupBox
+            // 
+            this.addPartyGroupBox.Controls.Add(this.partyNameTextBox);
+            this.addPartyGroupBox.Controls.Add(this.addPartyButton);
+            this.addPartyGroupBox.Location = new System.Drawing.Point(12, 134);
+            this.addPartyGroupBox.Name = "addPartyGroupBox";
+            this.addPartyGroupBox.Size = new System.Drawing.Size(146, 82);
+            this.addPartyGroupBox.TabIndex = 11;
+            this.addPartyGroupBox.TabStop = false;
+            this.addPartyGroupBox.Text = "Enter Party Name:";
+            // 
             // PartyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(342, 450);
+            this.Controls.Add(this.addPartyGroupBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -120,6 +154,8 @@
             this.Controls.Add(this.listView1);
             this.Name = "PartyForm";
             this.Text = "Party Form";
+            this.addPartyGroupBox.ResumeLayout(false);
+            this.addPartyGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,5 +171,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox partyNameTextBox;
+        private System.Windows.Forms.Button addPartyButton;
+        private System.Windows.Forms.GroupBox addPartyGroupBox;
     }
 }
