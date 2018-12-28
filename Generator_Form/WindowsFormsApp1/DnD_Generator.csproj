@@ -127,6 +127,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MonsterDBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PartyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PartyForm.Designer.cs">
+      <DependentUpon>PartyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -134,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PartyForm.resx">
+      <DependentUpon>PartyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
