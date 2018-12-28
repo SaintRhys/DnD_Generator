@@ -56,6 +56,8 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +72,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(563, 408);
+            this.button2.Location = new System.Drawing.Point(464, 409);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 30);
             this.button2.TabIndex = 2;
@@ -316,7 +318,7 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(246, 234);
+            this.textBox12.Location = new System.Drawing.Point(274, 238);
             this.textBox12.Margin = new System.Windows.Forms.Padding(5);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(101, 22);
@@ -326,6 +328,7 @@
             // 
             // listView2
             // 
+            this.listView2.AllowDrop = true;
             this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader9,
             this.columnHeader10,
@@ -340,8 +343,8 @@
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
             this.listView2.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView2_ItemDrag);
+            this.listView2.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView2_DragDrop);
             this.listView2.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView2_DragEnter);
-            this.listView2.DragOver += new System.Windows.Forms.DragEventHandler(this.listView2_DragOver);
             // 
             // columnHeader9
             // 
@@ -358,11 +361,33 @@
             this.columnHeader11.Text = "HP";
             this.columnHeader11.Width = 91;
             // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(545, 409);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 30);
+            this.button12.TabIndex = 28;
+            this.button12.Text = "Open All";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click_1);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(173, 234);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(93, 30);
+            this.button13.TabIndex = 29;
+            this.button13.Text = "Load Party";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.pictureBox1);
@@ -431,6 +456,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader10;
         private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
     }
 }
 
