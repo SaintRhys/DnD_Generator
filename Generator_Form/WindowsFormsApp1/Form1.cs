@@ -140,10 +140,16 @@ namespace WindowsFormsApp1 {
             string conString = "data source=MonsterDB.db;";
             string query = "SELECT * FROM monster_list WHERE challenge='" + chl + "' ORDER BY RANDOM() LIMIT 1;";
 
+            Console.WriteLine("Getting here");
+
             SQLiteConnection conDatabase = new SQLiteConnection(conString);
             SQLiteCommand cmdDatabase = new SQLiteCommand(query, conDatabase);
             SQLiteDataReader myReader;
-            try {
+
+            Console.WriteLine("Getting here 2");
+
+            try
+            {
                 int totalXP = int.Parse(textBox10.Text);
                 conDatabase.Open();
                 myReader = cmdDatabase.ExecuteReader();

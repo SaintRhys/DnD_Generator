@@ -8,11 +8,22 @@ namespace WindowsFormsApp1 {
         public PartyForm() {
             InitializeComponent();
             this.Width = listView1.Location.X + listView1.Width + 30;
+            PopulatePartyNameList();
         }
 
         public void PopulatePartyNameList() {
-            string filePath = @Application.UserAppDataPath + "/Monster_Lists";
+            listView1.Items.Clear();
+            string filePath = @Application.UserAppDataPath + "/Party_Lists";
+            DirectoryInfo d = new DirectoryInfo(filePath);
 
+            Console.WriteLine("File count: {0}", d.GetFiles().Length);
+
+            foreach (var file in d.GetFiles("*.json")) {
+                Console.WriteLine("File is: {0}", file);
+                string partyName = JsonConvert.DeserializeObject<string>(File.ReadAllText(file.DirectoryName + "/" + file));
+                ListViewItem partyNameListItem = new ListViewItem(partyName);
+                listView1.Items.Add(partyNameListItem);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e) {
@@ -39,9 +50,9 @@ namespace WindowsFormsApp1 {
         private void addPartyButton_Click(object sender, EventArgs e) {
             Console.WriteLine("Adding party");
             if (partyNameTextBox.Text != "") {
-                Console.WriteLine("Adding party");
                 string partyName = JsonConvert.SerializeObject(partyNameTextBox.Text);
                 File.WriteAllText(@Application.UserAppDataPath + "/Party_Lists/Party" + listView1.Items.Count + ".json", partyName);
+                PopulatePartyNameList();
             }
         }
     }
