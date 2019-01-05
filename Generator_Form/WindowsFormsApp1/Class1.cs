@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+﻿using System.Collections.Generic;
 
 namespace WindowsFormsApp1 {
     public class MonsterAttributes {
@@ -45,5 +40,10 @@ namespace WindowsFormsApp1 {
         public string urban { get; set; }
         public string font { get; set; }
         public string addInfo { get; set; }
+    }
+
+    public class PartyDetails{
+        public string partyName { get; set; }
+        public List<string> partyMemberNames { get; set; }
     }
 }
