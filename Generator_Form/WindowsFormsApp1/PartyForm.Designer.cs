@@ -67,6 +67,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Load";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // listView2
             // 
@@ -248,6 +249,7 @@
             this.button10.TabIndex = 17;
             this.button10.Text = "Delete";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // PartyForm
             // 

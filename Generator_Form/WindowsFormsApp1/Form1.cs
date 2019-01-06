@@ -55,18 +55,6 @@ namespace WindowsFormsApp1 {
             textBox6.Text = difficulty[diffNum];
         }
 
-        private void button9_Click(object sender, EventArgs e) {
-            int envoNum = Array.IndexOf(environment, textBox8.Text);
-            envoNum -= envoNum <= 0 ? 0 : 1;
-            textBox8.Text = environment[envoNum];
-        }
-
-        private void button10_Click(object sender, EventArgs e) {
-            int envoNum = Array.IndexOf(environment, textBox8.Text);
-            envoNum += envoNum >= environment.Length - 1 ? 0 : 1;
-            textBox8.Text = environment[envoNum];
-        }
-
         #endregion buttons
 
         private void CheckAndCreateFilePath() {
@@ -89,6 +77,7 @@ namespace WindowsFormsApp1 {
 
         private void ListViewSetUp() {
             listView1.FullRowSelect = true;
+            comboBox1.DataSource = environment;
         }
 
         private void button11_Click(object sender, EventArgs e) {
@@ -107,7 +96,6 @@ namespace WindowsFormsApp1 {
 
             textBox10.Text = "0";
             listView1.Items.Clear();
-            listView2.Items.Clear();
 
             foreach (int i in chlLvl) {
                 if (i / challenge <= 1) {
@@ -171,8 +159,6 @@ namespace WindowsFormsApp1 {
 
                     ListViewItem newItem = new ListViewItem(monsterRow);
                     listView1.Items.Add(newItem);
-
-                    listView2.Items.Add(new ListViewItem(new string[] {myReader.GetValue(1).ToString(),  "5", "10/10"}));
                 }
 
                 textBox10.Text = totalXP.ToString();
@@ -218,6 +204,30 @@ namespace WindowsFormsApp1 {
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void TransferAllMonsters() {
+            // transfers all monsters from listview1 to listview2 and rolls initiative and hp
+            if (listView1.Items.Count > 0) {
+                listView2.Clear();
+                string filePath = @Application.UserAppDataPath + "/Monster_Lists";
+                DirectoryInfo d = new DirectoryInfo(filePath);
+
+                foreach (var file in d.GetFiles("*.json")) {
+                    Console.WriteLine(file.DirectoryName + "/" + file);
+                    MonsterAttributes monAtts = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(file.DirectoryName + "/" + file));
+                    string initiative = ((int)Math.Floor((double)(monAtts.dex / 2) + -5)).ToString();
+                    string health = monAtts.hp.ToString();
+
+                    ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, initiative, health });
+                    listView2.Items.Add(newItem);
+                }
+            }
+        }
+
+        public void AddToListView(ListViewItem newItem) {
+            // adds item to the encounter listView
+            listView2.Items.Add(newItem);
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e) {
@@ -309,11 +319,12 @@ namespace WindowsFormsApp1 {
         }
 
         private void listView2_ItemDrag(object sender, ItemDragEventArgs e) {
+            // drag and drop for listview2
             listView2.DoDragDrop(listView2.SelectedItems, DragDropEffects.Move);
         }
 
         private void listView2_DragDrop(object sender, DragEventArgs e) {
-            // drag and drop monsters or players
+            // drag and drop monsters or players for listview2
             if (listView2.SelectedItems.Count == 0) return;
             Point pt = listView2.PointToClient(new Point(e.X, e.Y));
             ListViewItem itemDrag = listView2.GetItemAt(pt.X, pt.Y);
@@ -374,8 +385,12 @@ namespace WindowsFormsApp1 {
         }
 
         private void button13_Click(object sender, EventArgs e) {
-            PartyForm partyForm = new PartyForm();
+            PartyForm partyForm = new PartyForm(this);
             partyForm.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            TransferAllMonsters();
         }
     }
 }

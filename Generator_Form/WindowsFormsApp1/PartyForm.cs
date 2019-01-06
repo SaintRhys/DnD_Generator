@@ -6,9 +6,11 @@ using System.Collections.Generic;
 
 namespace WindowsFormsApp1 {
     public partial class PartyForm : Form {
-        public PartyForm() {
+        Form1 mainForm;
+        public PartyForm(Form1 form) {
             InitializeComponent();
             this.Width = listView1.Location.X + listView1.Width + 30;
+            mainForm = form;
             PopulatePartyNameList();
         }
 
@@ -20,7 +22,6 @@ namespace WindowsFormsApp1 {
             foreach (var file in d.GetFiles("*.json")) { 
                 PartyDetails partyDetails = JsonConvert.DeserializeObject<PartyDetails>(File.ReadAllText(file.DirectoryName + "/" + file));
                 ListViewItem partyNameListItem = new ListViewItem(partyDetails.partyName);
-                Console.WriteLine("File count: {0}", file.DirectoryName + "/" + file);
                 listView1.Items.Add(partyNameListItem);
             }
         }
@@ -42,6 +43,7 @@ namespace WindowsFormsApp1 {
         }
 
         private void button4_Click(object sender, EventArgs e) {
+            // edit button and expand form
             if(button4.Text == "Edit Party") {
                 Console.WriteLine("Selected item: {0}", listView1.SelectedItems.Count);
                 if (listView1.SelectedItems.Count > 0) {
@@ -155,6 +157,34 @@ namespace WindowsFormsApp1 {
                 PartyDetails partyDetails = JsonConvert.DeserializeObject<PartyDetails>(File.ReadAllText(Application.UserAppDataPath + "/Party_Lists/Party" + listView1.SelectedItems[0].Index + ".json"));
                 PopulatePlayerNameList(partyDetails);
             }
+        }
+
+        private void button10_Click(object sender, EventArgs e) {
+            // Delete party
+            File.Delete(@Application.UserAppDataPath + "/Party_Lists/Party" + listView1.SelectedItems[0].Index + ".json");
+
+            string filePath = @Application.UserAppDataPath + "/Party_Lists";
+            DirectoryInfo d = new DirectoryInfo(filePath);
+
+            int index = 0;
+            foreach (var file in d.GetFiles("*.json")) {
+                Console.WriteLine(file.Name);
+                File.Move(file.DirectoryName + "/" + file, file.DirectoryName + "/Party" + index + ".json");
+                index++;
+            }
+
+            PopulatePartyNameList();
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            // populate listView2 on form1
+            foreach (ListViewItem player in listView2.Items) {
+                string[] playerInfo = new string[] { player.SubItems[0].Text, "0", "0" };
+                ListViewItem newItem = new ListViewItem(playerInfo);
+
+                mainForm.AddToListView(newItem);
+            }
+            this.Close();
         }
     }
 }
