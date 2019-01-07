@@ -178,13 +178,17 @@ namespace WindowsFormsApp1 {
 
         private void button1_Click(object sender, EventArgs e) {
             // populate listView2 on form1
-            foreach (ListViewItem player in listView2.Items) {
-                string[] playerInfo = new string[] { player.SubItems[0].Text, "0", "0" };
-                ListViewItem newItem = new ListViewItem(playerInfo);
+            if (listView1.SelectedItems.Count > 0) {
+                mainForm.ClearEncounterListView();
+                foreach (ListViewItem player in listView2.Items) {
+                    string[] playerInfo = new string[] { player.SubItems[0].Text, "0", "0" };
+                    ListViewItem newItem = new ListViewItem(playerInfo);
 
-                mainForm.AddToListView(newItem);
+                    mainForm.AddToListView(newItem);
+                }
+                mainForm.ReAddMonsterNames();
+                this.Close();
             }
-            this.Close();
         }
     }
 }

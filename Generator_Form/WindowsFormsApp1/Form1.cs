@@ -15,6 +15,8 @@ namespace WindowsFormsApp1 {
         static string[] environment = new string[] {"Any", "Arctic", "Coastal", "Desert", "Forest", "Grassland", "Hill", "Mountain", "Swamp", "Underdark", "Underwater", "Urban" };
 
         int[] chlLvl = new int[] {10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100};
+        List<ListViewItem> playerNames = new List<ListViewItem>();
+        List<ListViewItem> monsterNames = new List<ListViewItem>();
 
         public Form1() {
             InitializeComponent();
@@ -209,18 +211,40 @@ namespace WindowsFormsApp1 {
         private void TransferAllMonsters() {
             // transfers all monsters from listview1 to listview2 and rolls initiative and hp
             if (listView1.Items.Count > 0) {
-                listView2.Clear();
+                ClearEncounterListView();
                 string filePath = @Application.UserAppDataPath + "/Monster_Lists";
                 DirectoryInfo d = new DirectoryInfo(filePath);
 
+                Random rnd = new Random();
                 foreach (var file in d.GetFiles("*.json")) {
-                    Console.WriteLine(file.DirectoryName + "/" + file);
                     MonsterAttributes monAtts = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(file.DirectoryName + "/" + file));
-                    string initiative = ((int)Math.Floor((double)(monAtts.dex / 2) + -5)).ToString();
+                    string initiative = ( rnd.Next(1, 21) + (int)Math.Floor((double)(monAtts.dex / 2) + -5)).ToString();
                     string health = monAtts.hp.ToString();
 
                     ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, initiative, health });
+                    monsterNames.Add(newItem);
                     listView2.Items.Add(newItem);
+                }
+                ReAddPlayerNames();
+            }
+        }
+
+        public void ClearEncounterListView() {
+            listView2.Items.Clear();
+        }
+
+        private void ReAddPlayerNames() {
+            if (playerNames.Count > 0) {
+                foreach (ListViewItem item in playerNames) {
+                    listView2.Items.Add(item);
+                }
+            }
+        }
+
+        public void ReAddMonsterNames() {
+            if (monsterNames.Count > 0) {
+                foreach (ListViewItem item in monsterNames) {
+                    listView2.Items.Add(item);
                 }
             }
         }
@@ -228,6 +252,7 @@ namespace WindowsFormsApp1 {
         public void AddToListView(ListViewItem newItem) {
             // adds item to the encounter listView
             listView2.Items.Add(newItem);
+            playerNames.Add(newItem);
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e) {
