@@ -4,8 +4,7 @@ Generate encounters and treasure(in the future)
 <b>Set Up</b>
 <p>To use database copy db file to WindowsFormsApp1 Bin folder</p>
 
-To Do
-
+<b>To Do</b>
 <ul>
   <li>Create database of monsters additional features and actions.</li>
   <li>Add hit dice to database.</li>
