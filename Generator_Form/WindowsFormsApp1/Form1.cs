@@ -417,5 +417,41 @@ namespace WindowsFormsApp1 {
         private void button1_Click(object sender, EventArgs e) {
             TransferAllMonsters();
         }
+
+        private void listView2_DoubleClick(object sender, EventArgs e) {
+            // open creature and edit info
+            FormCollection fc = Application.OpenForms;
+            bool alreadyOpen = false;
+            foreach  (Form form in fc) {
+                if (form.Name == listView2.SelectedItems[0].SubItems[0].Text + listView2.SelectedItems[0].Index) {
+                    alreadyOpen = true;
+                    break;
+                }
+            }
+            if (!alreadyOpen) {
+                Form3 newForm = new Form3(listView2.SelectedItems[0], this);
+                newForm.Name = listView2.SelectedItems[0].SubItems[0].Text + listView2.SelectedItems[0].Index;
+                newForm.Show();
+            }
+        }
+
+        public void ReplaceCreatureOnListView(ListViewItem newItem) {
+            // look for same creature in listview2 and replace it with new one
+            for (int i = 0; i < listView2.Items.Count; i++) {
+                if (listView2.Items[i].SubItems[0].Text == newItem.SubItems[0].Text) {
+
+                    if (monsterNames.Contains(listView2.Items[i])) {
+                        int index = monsterNames.IndexOf(listView2.Items[i]);
+                        monsterNames[index] = newItem;
+                    } else if (playerNames.Contains(listView2.Items[i])) {
+                        int index = playerNames.IndexOf(listView2.Items[i]);
+                        playerNames[index] = newItem;
+                    }
+
+                    listView2.Items[i] = newItem;
+                    break;
+                }
+            }
+        }
     }
 }

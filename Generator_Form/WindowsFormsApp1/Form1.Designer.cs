@@ -335,6 +335,7 @@
             this.listView2.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView2_ItemDrag);
             this.listView2.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView2_DragDrop);
             this.listView2.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView2_DragEnter);
+            this.listView2.DoubleClick += new System.EventHandler(this.listView2_DoubleClick);
             // 
             // columnHeader9
             // 
