@@ -215,13 +215,11 @@ namespace WindowsFormsApp1 {
                 string filePath = @Application.UserAppDataPath + "/Monster_Lists";
                 DirectoryInfo d = new DirectoryInfo(filePath);
 
-                Random rnd = new Random();
                 foreach (var file in d.GetFiles("*.json")) {
                     MonsterAttributes monAtts = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(file.DirectoryName + "/" + file));
-                    string initiative = ( rnd.Next(1, 21) + (int)Math.Floor((double)(monAtts.dex / 2) + -5)).ToString();
                     string health = monAtts.hp.ToString();
 
-                    ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, initiative, health });
+                    ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, monAtts.initiative.ToString(), health });
                     monsterNames.Add(newItem);
                     listView2.Items.Add(newItem);
                 }
@@ -337,6 +335,9 @@ namespace WindowsFormsApp1 {
             monAtt.urban = myReaderList[35];
             monAtt.font = myReaderList[36];
             monAtt.addInfo = myReaderList[37];
+            Random rnd = new Random();
+            int initiative = (rnd.Next(1, 21) + (int)Math.Floor((double)(monAtt.dex / 2) + -5));
+            monAtt.initiative = initiative;
         }
 
         private void button12_Click(object sender, EventArgs e) {

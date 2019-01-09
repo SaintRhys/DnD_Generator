@@ -40,6 +40,7 @@ namespace WindowsFormsApp1 {
         public string urban { get; set; }
         public string font { get; set; }
         public string addInfo { get; set; }
+        public int initiative { get; set; }
     }
 
     public class PartyDetails{

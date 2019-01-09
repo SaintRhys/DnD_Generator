@@ -21,6 +21,7 @@ namespace WindowsFormsApp1 {
             textMaxHP.Text = monAtt.hp.ToString();
             textHitDice.Text = monAtt.hitDice;
             textSpeed.Text = monAtt.speeds;
+            textInitiative.Text = monAtt.initiative.ToString();
 
             string[] monsterRow = new string[] {monAtt.str.ToString(), monAtt.dex.ToString(),
                         monAtt.con.ToString(), monAtt.intt.ToString(), monAtt.wis.ToString(), monAtt.cha.ToString()};
@@ -173,6 +174,11 @@ namespace WindowsFormsApp1 {
                 }
             }
             panel1.Width = this.Width - 28;
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            // save changes to monster and add it back to listview2
+
         }
     }
 }
