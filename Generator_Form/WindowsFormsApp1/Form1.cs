@@ -17,6 +17,7 @@ namespace WindowsFormsApp1 {
         int[] chlLvl = new int[] {10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100};
         List<ListViewItem> playerNames = new List<ListViewItem>();
         List<ListViewItem> monsterNames = new List<ListViewItem>();
+        List<int> randomIDs = new List<int>();
 
         public Form1() {
             InitializeComponent();
@@ -156,7 +157,7 @@ namespace WindowsFormsApp1 {
                     string completeMon = JsonConvert.SerializeObject(monAtt);
                     File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items.Count + ".json", completeMon);
                     
-                    string[] monsterRow = new string[] {myReader.GetValue(0).ToString(), myReader.GetString(1),
+                    string[] monsterRow = new string[] {monAtt.id.ToString(), myReader.GetString(1),
                         myReader.GetString(2), myReader.GetString(3)};
 
                     ListViewItem newItem = new ListViewItem(monsterRow);
@@ -219,7 +220,7 @@ namespace WindowsFormsApp1 {
                     MonsterAttributes monAtts = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(file.DirectoryName + "/" + file));
                     string health = monAtts.hp.ToString();
 
-                    ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, monAtts.initiative.ToString(), health });
+                    ListViewItem newItem = new ListViewItem(new string[] { monAtts.name, monAtts.initiative.ToString(), health, monAtts.id.ToString() });
                     monsterNames.Add(newItem);
                     listView2.Items.Add(newItem);
                 }
@@ -267,12 +268,16 @@ namespace WindowsFormsApp1 {
 
             // create monster form
             if (!monsterFormExists) {
-                MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.SelectedItems[0].Index + ".json"));
-                Monster_Form mForm = new Monster_Form(completeMon);
-                Console.WriteLine("Count: {0}", completeMon.name);
-                mForm.Text = listView1.SelectedItems[0].Text + listView1.SelectedItems[0].Index;
-                mForm.Show();
+                OpenMonsterForm(listView1.SelectedItems[0]);
             }
+        }
+
+        private void OpenMonsterForm(ListViewItem monsterListView) {
+            MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + monsterListView.Index + ".json"));
+            Monster_Form mForm = new Monster_Form(completeMon);
+            Console.WriteLine("Count: {0}", completeMon.name);
+            mForm.Text = monsterListView.Text + monsterListView.Index;
+            mForm.Show();
         }
 
         public void CloseUnneededForms(string formName) {
@@ -297,7 +302,7 @@ namespace WindowsFormsApp1 {
         }
 
         public void AssignAttributes(MonsterAttributes monAtt, List<string> myReaderList) {
-            monAtt.id = int.Parse(myReaderList[0]);
+            monAtt.id = CreateRandomID();
             monAtt.name = myReaderList[1];
             monAtt.size = myReaderList[2];
             monAtt.type = myReaderList[3];
@@ -401,11 +406,7 @@ namespace WindowsFormsApp1 {
 
                 // create monster form
                 if (!monsterFormExists) {
-                    MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + listView1.Items[i].Index + ".json"));
-                    Monster_Form mForm = new Monster_Form(completeMon);
-                    Console.WriteLine("Count: {0}", completeMon.name);
-                    mForm.Text = listView1.Items[i].Text + listView1.Items[i].Index;
-                    mForm.Show();
+                    OpenMonsterForm(listView1.Items[i]);
                 }
             }
         }
@@ -422,17 +423,27 @@ namespace WindowsFormsApp1 {
         private void listView2_DoubleClick(object sender, EventArgs e) {
             // open creature and edit info
             FormCollection fc = Application.OpenForms;
+            ListViewItem selectedItem = listView2.SelectedItems[0];
             bool alreadyOpen = false;
             foreach  (Form form in fc) {
-                if (form.Name == listView2.SelectedItems[0].SubItems[0].Text + listView2.SelectedItems[0].Index) {
+                if (form.Name == selectedItem.SubItems[0].Text + selectedItem.Index) {
                     alreadyOpen = true;
                     break;
                 }
             }
             if (!alreadyOpen) {
-                Form3 newForm = new Form3(listView2.SelectedItems[0], this);
-                newForm.Name = listView2.SelectedItems[0].SubItems[0].Text + listView2.SelectedItems[0].Index;
-                newForm.Show();
+                if (playerNames.Contains(selectedItem)) {
+                    Form3 newForm = new Form3(listView2.SelectedItems[0], this);
+                    newForm.Name = selectedItem.SubItems[0].Text + selectedItem.Index;
+                    newForm.Show();
+                } else if (monsterNames.Contains(selectedItem)) {
+                    foreach (ListViewItem item in listView1.Items) {
+                        if (item.SubItems[0].Text == selectedItem.SubItems[3].Text) {
+                            OpenMonsterForm(item);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -453,6 +464,20 @@ namespace WindowsFormsApp1 {
                     break;
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+            ListViewItem newItem = new ListViewItem(new string[] {"Name", "10", "95", "ID" });
+            listView2.Items.Add(newItem);
+        }
+
+        private int CreateRandomID() {
+            Random rnd = new Random();
+            int randomID;
+            do {
+                randomID = rnd.Next(1, 10001);
+            } while (randomIDs.Contains(randomID));
+            return randomID;
         }
     }
 }
