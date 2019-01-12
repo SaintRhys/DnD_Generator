@@ -10,6 +10,7 @@ namespace WindowsFormsApp1 {
         Form1 mainForm;
         public Monster_Form(MonsterAttributes currMonAtt, Form1 form) {
             InitializeComponent();
+            this.CenterToScreen();
             monAtt = currMonAtt;
             SetUpMonsterStats();
             mainForm = form;
@@ -56,29 +57,48 @@ namespace WindowsFormsApp1 {
             panel1.Controls.Add(line);
         }
 
+        private Size GetStringWidth(string str, Font font) {
+            Size size = TextRenderer.MeasureText(str, font);
+            return size;
+        }
+
         private void SetUpMonsterProps(string[] props) {
             int controlCount = 1;
             Panel newPanel = new Panel();
             AddNewPanel(newPanel, 1);
 
+            int extraSpace = 0;
             for (int i = 0; i < props.Length; i++) {
                 if (props[i] != "None") {
                     TextBox mProp = new TextBox();
                     TextBox mPropText = new TextBox();
 
                     mPropText.Text = monsterProps[i];
-                    mPropText.Location = new Point(10, newPanel.Controls.Count / 2 * 25);
+                    mPropText.Location = new Point(10, (newPanel.Controls.Count / 2 * 25 + extraSpace) + 5);
+                    mPropText.TextAlign = HorizontalAlignment.Right;
+                    mPropText.Width = GetStringWidth(mPropText.Text, new Font("Microsoft Sans Serif", 8.0f)).Width;
 
                     mProp.Text = props[i];
-                    mProp.Location = new Point(mPropText.Width + 20, newPanel.Controls.Count / 2 * 25);
-                        
+                    mProp.Location = new Point(mPropText.Width + 10 + mPropText.Location.X, (newPanel.Controls.Count / 2 * 25 + extraSpace) + 5);
+                    mProp.Width = GetStringWidth(mProp.Text, new Font("Microsoft Sans Serif", 8.0f)).Width;
+                    //mProp.BorderStyle = BorderStyle.None;
+                    mProp.BackColor = this.BackColor;
+
+                    Console.WriteLine("Text: {0}, form: {1}", mProp.Location.X + mProp.Width, panel1.Width + panel1.Location.X);
+                    if (mProp.Location.X + mProp.Width >= panel1.Width + panel1.Location.X) {
+                        mProp.Multiline = true;
+                        mProp.Width = panel1.Width + panel1.Location.X - mProp.Location.X - 40;
+                        mProp.Height = mProp.Height * 2;
+                        extraSpace += 25;
+                    }
+
                     newPanel.Controls.Add(mPropText);
                     newPanel.Controls.Add(mProp);
                 }
                 controlCount = newPanel.Controls.Count / 2;
             }
 
-            newPanel.Height = controlCount * 25;
+            newPanel.Height = (controlCount * 25) + 10 + extraSpace;
 
             Panel newPanel1 = new Panel();
             // add monster properties panel
