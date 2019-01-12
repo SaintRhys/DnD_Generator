@@ -130,6 +130,7 @@
             // 
             // textHitDice
             // 
+            this.textHitDice.Enabled = false;
             this.textHitDice.Location = new System.Drawing.Point(173, 76);
             this.textHitDice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textHitDice.Name = "textHitDice";
@@ -154,6 +155,7 @@
             // 
             // textSpeed
             // 
+            this.textSpeed.Enabled = false;
             this.textSpeed.Location = new System.Drawing.Point(92, 99);
             this.textSpeed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textSpeed.Name = "textSpeed";

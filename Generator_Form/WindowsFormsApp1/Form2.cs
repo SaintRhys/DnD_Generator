@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
+using Newtonsoft.Json;
 
 namespace WindowsFormsApp1 {
     public partial class Monster_Form : Form {
         string[] monsterProps = new string[] {"Saving Throws:", "Skills:", "Damage Resistance:", "Damage Immunities:", "Condition Immunities:", "Senses:", "Language:", "Challenge"};
         MonsterAttributes monAtt;
-        public Monster_Form(MonsterAttributes currMonAtt) {
+        Form1 mainForm;
+        public Monster_Form(MonsterAttributes currMonAtt, Form1 form) {
             InitializeComponent();
             monAtt = currMonAtt;
             SetUpMonsterStats();
+            mainForm = form;
         }
 
         private void SetUpMonsterStats() {
             textName.Text = monAtt.name;
             textType.Text = monAtt.type + ", " + monAtt.align;
             textAC.Text = monAtt.ac.ToString();
-            textCurrHP.Text = monAtt.hp.ToString();
+            textCurrHP.Text = monAtt.currHp.ToString();
             textMaxHP.Text = monAtt.hp.ToString();
             textHitDice.Text = monAtt.hitDice;
             textSpeed.Text = monAtt.speeds;
@@ -178,7 +180,12 @@ namespace WindowsFormsApp1 {
 
         private void button1_Click(object sender, EventArgs e) {
             // save changes to monster and add it back to listview2
-
+            string[] newStats = new string[] {  monAtt.id.ToString(),
+                                                textInitiative.Text,
+                                                textMaxHP.Text,
+                                                textCurrHP.Text,
+                                                textAC.Text};
+            mainForm.SaveNewMonsterStats(newStats);
         }
     }
 }
