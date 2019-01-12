@@ -12,6 +12,7 @@ namespace WindowsFormsApp1 {
         public double cr { get; set; }
         public int ac { get; set; }
         public int hp { get; set; }
+        public int currHp { get; set; }
         public string hitDice { get; set; }
         public string speeds { get; set; }
         public int str { get; set; }

@@ -274,7 +274,7 @@ namespace WindowsFormsApp1 {
 
         private void OpenMonsterForm(ListViewItem monsterListView) {
             MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + monsterListView.Index + ".json"));
-            Monster_Form mForm = new Monster_Form(completeMon);
+            Monster_Form mForm = new Monster_Form(completeMon, this);
             Console.WriteLine("Count: {0}", completeMon.name);
             mForm.Text = monsterListView.Text + monsterListView.Index;
             mForm.Show();
@@ -312,6 +312,7 @@ namespace WindowsFormsApp1 {
             monAtt.cr = double.Parse(myReaderList[7]);
             monAtt.ac = int.Parse(myReaderList[8]);
             monAtt.hp = int.Parse(myReaderList[9]);
+            monAtt.currHp = int.Parse(myReaderList[9]);
             monAtt.hitDice = myReaderList[10];
             monAtt.speeds = myReaderList[11];
             monAtt.str = int.Parse(myReaderList[12]);
@@ -469,6 +470,21 @@ namespace WindowsFormsApp1 {
         private void button2_Click(object sender, EventArgs e) {
             ListViewItem newItem = new ListViewItem(new string[] {"Name", "10", "95", "ID" });
             listView2.Items.Add(newItem);
+        }
+
+        public void SaveNewMonsterStats(string[] newStats) {
+            foreach (ListViewItem item in listView1.Items) {
+                if(newStats[0] == item.SubItems[0].Text) {
+                    MonsterAttributes monAtt = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + item.Index + ".json"));
+                    monAtt.initiative = int.Parse(newStats[1]);
+                    monAtt.hp = int.Parse(newStats[2]);
+                    monAtt.currHp = int.Parse(newStats[3]);
+                    monAtt.ac = int.Parse(newStats[4]);
+                    string completeMon = JsonConvert.SerializeObject(monAtt);
+                    File.WriteAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + item.Index + ".json", completeMon);
+                    break;
+                }
+            }
         }
 
         private int CreateRandomID() {
