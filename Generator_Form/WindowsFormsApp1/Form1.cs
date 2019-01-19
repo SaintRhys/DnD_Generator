@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Collections;
 using MySql.Data.MySqlClient;
 using System.Data.SQLite;
 using Newtonsoft.Json;
@@ -495,6 +496,34 @@ namespace WindowsFormsApp1 {
                 randomID = rnd.Next(1, 10001);
             } while (randomIDs.Contains(randomID));
             return randomID;
+        }
+
+        private void SortList() {
+            // sort items in listView2
+            if (listView2.Items.Count > 0) {
+                List<ListViewItem> newOrder = new List<ListViewItem>();
+
+                while (listView2.Items.Count > 0) {
+                    int newInt = 0;
+                    int index = 0;
+                    for (int i = 0; i < listView2.Items.Count; i++) {
+                        if (newInt < int.Parse(listView2.Items[i].SubItems[1].Text)) {
+                            newInt = int.Parse(listView2.Items[i].SubItems[1].Text);
+                            index = i;
+                        }
+                    }
+                    newOrder.Add(listView2.Items[index]);
+                    listView2.Items.RemoveAt(index);
+                }
+                foreach(ListViewItem item in newOrder) {
+                    listView2.Items.Add(item);
+                }
+            }
+        }
+
+        private void sortButton_Click(object sender, EventArgs e) {
+            Console.WriteLine("Sorting 3");
+            SortList();
         }
     }
 }
