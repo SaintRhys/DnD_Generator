@@ -12,7 +12,7 @@ namespace WindowsFormsApp1 {
         static int maxLevel = 20;
         static int maxPartySize = 8;
         static string[] difficulty = new string[] {"Easy", "Medium", "Hard", "Deadly"};
-        static string[] environment = new string[] {"Any", "Arctic", "Coastal", "Desert", "Forest", "Grassland", "Hill", "Mountain", "Swamp", "Underdark", "Underwater", "Urban" };
+        static string[] environment = new string[] {"Any", "Arctic", "Coast", "Desert", "Forest", "Grassland", "Hill", "Mountain", "Swamp", "Underdark", "Underwater", "Urban" };
 
         int[] chlLvl = new int[] {10, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100};
         List<ListViewItem> playerNames = new List<ListViewItem>();
@@ -23,6 +23,7 @@ namespace WindowsFormsApp1 {
             InitializeComponent();
             ListViewSetUp();
             CheckAndCreateFilePath();
+            this.CenterToScreen();
         }
 
         #region buttons
@@ -90,6 +91,7 @@ namespace WindowsFormsApp1 {
             int pSize = int.Parse(textBox4.Text);
             int diff = (Array.IndexOf(difficulty, textBox6.Text) + 1);
             int challenge = (level * pSize * diff) * 25;
+            int enviroIndex = comboBox1.SelectedIndex;
 
             List<int> posChl = new List<int>();
             List<int> monsterList = new List<int>();
@@ -110,11 +112,10 @@ namespace WindowsFormsApp1 {
             int missFires = 0;
             while (challenge > 0) {
                 int rInt = r.Next(0, posChl.Count);
-                Console.WriteLine("Random: {0} and pos: {1}", rInt, posChl[rInt]);
                 if (challenge - posChl[rInt] >= 0) {
                     challenge -= posChl[rInt];
                     monsterList.Add(posChl[rInt]);
-                    PopulateViewListInternalDatabase(posChl[rInt]);
+                    PopulateViewListInternalDatabase(posChl[rInt], enviroIndex);
                 } else
                     missFires++;
                 if (missFires == 5)
@@ -127,17 +128,18 @@ namespace WindowsFormsApp1 {
             CloseUnneededForms(this.Name);
         }
 
-        private void PopulateViewListInternalDatabase(int chl) {
+        private void PopulateViewListInternalDatabase(int chl, int enviroIndex) {
             string conString = "data source=MonsterDB.db;";
-            string query = "SELECT * FROM monster_list WHERE challenge='" + chl + "' ORDER BY RANDOM() LIMIT 1;";
-
-            Console.WriteLine("Getting here");
+            string query = "";
+            if (enviroIndex == 0) {
+                query = "SELECT * FROM monster_list WHERE challenge='" + chl + "' ORDER BY RANDOM() LIMIT 1;";
+            } else {
+                query = "SELECT * FROM monster_list WHERE " + environment[enviroIndex] + "='YES' AND challenge='" + chl + "' ORDER BY RANDOM() LIMIT 1;";
+            }
 
             SQLiteConnection conDatabase = new SQLiteConnection(conString);
             SQLiteCommand cmdDatabase = new SQLiteCommand(query, conDatabase);
             SQLiteDataReader myReader;
-
-            Console.WriteLine("Getting here 2");
 
             try
             {
@@ -275,7 +277,6 @@ namespace WindowsFormsApp1 {
         private void OpenMonsterForm(ListViewItem monsterListView) {
             MonsterAttributes completeMon = JsonConvert.DeserializeObject<MonsterAttributes>(File.ReadAllText(@Application.UserAppDataPath + "/Monster_Lists/monsterList" + monsterListView.Index + ".json"));
             Monster_Form mForm = new Monster_Form(completeMon, this);
-            Console.WriteLine("Count: {0}", completeMon.name);
             mForm.Text = monsterListView.Text + monsterListView.Index;
             mForm.Show();
         }

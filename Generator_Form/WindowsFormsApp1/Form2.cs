@@ -10,7 +10,6 @@ namespace WindowsFormsApp1 {
         Form1 mainForm;
         public Monster_Form(MonsterAttributes currMonAtt, Form1 form) {
             InitializeComponent();
-            this.CenterToScreen();
             monAtt = currMonAtt;
             SetUpMonsterStats();
             mainForm = form;
