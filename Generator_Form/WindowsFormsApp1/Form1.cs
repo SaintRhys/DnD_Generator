@@ -415,8 +415,22 @@ namespace WindowsFormsApp1 {
         }
 
         private void button13_Click(object sender, EventArgs e) {
-            PartyForm partyForm = new PartyForm(this);
-            partyForm.Show();
+            bool alreadyOpen = CheckFormOpen("PartyForm");
+            if (!alreadyOpen) {
+                PartyForm partyForm = new PartyForm(this);
+                partyForm.Show();
+            }
+        }
+
+        private bool CheckFormOpen(string formName) {
+            FormCollection fc = Application.OpenForms;
+            foreach (Form form in fc) {
+                Console.WriteLine("Form: {0}", form.Name);
+                if (form.Name == formName) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void button1_Click(object sender, EventArgs e) {
@@ -427,13 +441,8 @@ namespace WindowsFormsApp1 {
             // open creature and edit info
             FormCollection fc = Application.OpenForms;
             ListViewItem selectedItem = listView2.SelectedItems[0];
-            bool alreadyOpen = false;
-            foreach  (Form form in fc) {
-                if (form.Name == selectedItem.SubItems[0].Text + selectedItem.Index) {
-                    alreadyOpen = true;
-                    break;
-                }
-            }
+            bool alreadyOpen = CheckFormOpen(selectedItem.SubItems[0].Text + selectedItem.Index);
+            
             if (!alreadyOpen) {
                 if (playerNames.Contains(selectedItem)) {
                     Form3 newForm = new Form3(listView2.SelectedItems[0], this);
